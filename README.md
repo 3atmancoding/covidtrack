@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+## Covid Tracker app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Basic webapp created to understand working of
+`useState` `useEffect` `useRef` & `useCallback`
 
-## Available Scripts
+The flow of the app
 
-In the project directory, you can run:
+- We declare `useState` and `useRef`
 
-### `yarn start`
+```js
+const [isLoading, setLoading] = useState(true);
+const [isError, setError] = useState(false);
+const [error, renderError] = useState('');
+const [data, setData] = useState([]);
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```js
+const getInputValue = useRef();
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+What is `useState`?
 
-### `yarn test`
+## Syntax
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```js
+const [state, setState] = useState(initialState);
+```
 
-### `yarn build`
+We have a destructure array state which is equal to the intialState passed in useSate
+setState updates the previous state every time we pass a value inside it.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+What is `useRef`?
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Syntax
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```js
+const refContainer = useRef(initialValue);
+```
 
-### `yarn eject`
+- useRef returns a mutable ref object whose .current property is initialized to the passed argument (initialValue)
+- You might be familiar with refs primarily as a way to access the DOM. If you pass a ref object to React with <div ref={myRef} />, React will set its .current property to the corresponding DOM node whenever that node changes.
+- Mutating the .current property doesn’t cause a re-render
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+In the code we use ref to get value that has been selected in the option. We need that value so that we can pass the value to url
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+What is `useEffect`?
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Syntax
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```js
+useEffect(didUpdate);
+```
 
-## Learn More
+- All the network calls and any side effects like mutations, subscriptions, timers, logging can be performed in useEffect Hook
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+What is `useCallback`?
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Syntax
 
-### Code Splitting
+```js
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b);
+}, [a, b]);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- useCallback will return a memoized version of the callback that only changes if one of the dependencies has changed
+- So we wrap our ajax call in useCallback so that we need not to render every time we load the same option in select
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Check the Network tab you can see that 200 call is cached. Our values are cached.
