@@ -9,10 +9,11 @@ function App() {
   const [error, renderError] = useState('');
   const [data, setData] = useState([]);
   const [param, setParam] = useState('yesterday');
+
   const getCaseDetails = useCallback(async () => {
     try {
       let response = await axios.get(
-        `https://disease.sh/v3/covid-19/continents?${param}=yesterday&sort=active`
+        `https://disease.sh/v3/covid-19/continents?${param}=${param}&sort=active`
       );
       console.log('The response', response);
       setData(response.data);
@@ -25,8 +26,8 @@ function App() {
   ///////////////////////////////
   const onChange = (e) => {
     e.preventDefault();
-    console.log('Submitted');
     const refValue = getInputValue.current.value;
+    console.log('Submitted', refValue);
     setParam(refValue);
   };
   //////////////////////////////////
@@ -40,6 +41,7 @@ function App() {
   });
 
   //////////////////////////////////
+
   useEffect(() => {
     getCaseDetails();
     setLoading(false);
